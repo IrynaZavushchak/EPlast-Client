@@ -224,6 +224,9 @@ const PrivateLayout = ({ children }: any) => {
               ) : (<> </>)
             }
 
+            {(canEdit === true || canSee === true || canAccess === true || regionAdm === true || cityAdm === true || clubAdm === true) ? (
+                <Menu.Item onClick={() => { handleClickAway(); history.push('/aboutBase'); }} key="5">Про Базу</Menu.Item>) : (<> </>)
+
             {(!canEdit && !regionAdm && !cityAdm && clubAdm) ? (
               <Menu.Item icon={<FileTextOutlined />} onClick={() => { handleClickAway(); history.push(`/annualreport/table/city`); }} key="9">
                 Річні звіти

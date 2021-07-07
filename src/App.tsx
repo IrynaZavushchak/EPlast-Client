@@ -61,6 +61,8 @@ import RegionBoardAdministration from "./pages/RegionsBoard/RegionBoardAdministr
 import RegionBoardDocuments from "./pages/RegionsBoard/RegionBoardDocuments";
 import GoverningBody from "./pages/GoverningBody/GoverningBody/GoverningBody";
 import CreateGoverningBody from "./pages/GoverningBody/CreateGoverningBody";
+
+import AboutBase from "./pages/AboutBase/AboutBase";
 import RegionAnnualReportCreate from "./pages/AnnualReport/RegionAnnualReportCreateEditView/RegionAnnualReportCreate";
 import RegionAnnualReportEdit from "./pages/AnnualReport/RegionAnnualReportCreateEditView/RegionAnnualReportEdit";
 import RegionAnnualReportInformation from "./pages/AnnualReport/AnnualReportTable/RegionAnnualReportInformation";
@@ -68,6 +70,7 @@ import AnnualReportInformation from "./pages/AnnualReport/AnnualReportTable/Annu
 import ClubAnnualReportInformation from "./pages/AnnualReport/AnnualReportTable/ClubAnnualReportInformation/ClubAnnualReportInformation";
 import GoverningBodyAdministration from "./pages/GoverningBody/GoverningBody/GoverningBodyAdministration";
 import GoverningBodyDocuments from "./pages/GoverningBody/GoverningBody/GoverningBodyDocuments";
+
 
 const App: FC = () => (
   <div className="App">
@@ -436,6 +439,11 @@ const App: FC = () => (
             exact
             path="/notAuthorized"
             component={NotAuthorizedPage}
+          />
+          <RouteWithLayout
+            layout={PrivateLayout}
+            path="/aboutBase"
+            component={AboutBase}
           />
           <RouteWithLayout
             layout={PrivateLayout}

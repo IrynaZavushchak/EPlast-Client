@@ -1,0 +1,10 @@
+.addPostButton{
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 12px;
+    margin:auto;
+}
+
+.modalDiv{
+    margin-top: 12px;
+}
