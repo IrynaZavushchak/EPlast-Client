@@ -86,7 +86,7 @@ export const editClubAnnualReport = async (data: ClubAnnualReport) => {
 
 export const getClubByPage = async (page: number, pageSize: number, clubName: string | null = null) => {
   return api
-    .get(`Club/Profiles/${page}`, { page, pageSize, clubName })
+    .get(`ClubCache/Profiles/${page}`, { page, pageSize, clubName })
     .catch((error) => {
       throw new Error(error);
     });
