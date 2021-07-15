@@ -2,28 +2,49 @@ import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {Avatar, Button, Card, Layout, Spin} from 'antd';
 import {FileTextOutlined, CloseOutlined, RollbackOutlined, DownloadOutlined} from '@ant-design/icons';
-import {getAllDocuments, getFile, removeDocument} from "../../../api/clubsApi";
+import {clubNameOfApprovedMember, getAllDocuments, getFile, removeDocument, getClubById} from "../../../api/clubsApi";
 import "./Club.less";
 import ClubDocument from '../../../models/Club/ClubDocument';
-import Title from 'antd/lib/typography/Title';
+import ClubProfile from "../../../models/Club/ClubProfile";
 import moment from "moment";
+import { Roles } from '../../../models/Roles/Roles';
 import Spinner from '../../Spinner/Spinner';
+import Title from 'antd/lib/typography/Title';
+import userApi from "../../../api/UserApi";
+
 
 const ClubDocuments = () => {
     const {id} = useParams();
     const history = useHistory();
 
+    const [activeUserClub, setActiveUserClub] = useState<string>();
     const [documents, setDocuments] = useState<ClubDocument[]>([]);
     const [canEdit, setCanEdit] = useState<Boolean>(false);
+    const [club, setClub] = useState<ClubProfile>(new ClubProfile());
     const [loading, setLoading] = useState<boolean>(false);
+    const [activeUserRoles, setActiveUserRoles] = useState<string[]>([]);
+    
+
+    const getClub = async () => {
+      setLoading(true);
+      try {
+        const response = await getClubById(+id);
+        const response1 = await clubNameOfApprovedMember(userApi.getActiveUserId());
+
+        setActiveUserClub(response1.data);
+        setActiveUserRoles(userApi.getActiveUserRoles);
+        setClub(response.data);
+       } 
+    finally {
+      setLoading(false);
+    }
+  }
 
     const getDocuments = async () => {
       setLoading(true);
       const response = await getAllDocuments(id);
-
       setDocuments(response.data.documents);
       setCanEdit(response.data.canEdit);
-      setLoading(false);
     };
 
     const downloadDocument = async (fileBlob: string, fileName: string) => {
@@ -38,6 +59,7 @@ const ClubDocuments = () => {
 
     useEffect(() => {
         getDocuments();
+        getClub();
     }, []);
 
     return (
@@ -75,7 +97,10 @@ const ClubDocuments = () => {
                             onClick={() => removeDocumentById(document.id)}
                           />,
                         ]
-                      : [
+                        
+                      : ((activeUserRoles.includes(Roles.Supporter) || activeUserRoles.includes(Roles.PlastMember)) 
+                      && club.name == activeUserClub ) 
+                      ? [
                           <DownloadOutlined
                             key="download"
                             onClick={() =>
@@ -86,6 +111,7 @@ const ClubDocuments = () => {
                             }
                           />,
                         ]
+                        : undefined
                   }
                 >
                   <Avatar size={86} icon={<FileTextOutlined />} />

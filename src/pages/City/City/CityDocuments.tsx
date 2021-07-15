@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {Avatar, Button, Card, Layout, Spin} from 'antd';
 import {FileTextOutlined, CloseOutlined, RollbackOutlined, DownloadOutlined} from '@ant-design/icons';
-import {getAllDocuments, getFile, removeDocument, getCityById} from "../../../api/citiesApi";
+import {getAllDocuments, getFile, removeDocument, getCityById, cityNameOfApprovedMember} from "../../../api/citiesApi";
 import "./City.less";
 import CityDocument from '../../../models/City/CityDocument';
 import CityProfile from "../../../models/City/CityProfile";
@@ -27,6 +27,9 @@ const CityDocuments = () => {
       setLoading(true);
       try {
         const response = await getCityById(+id);
+        const response1 = await cityNameOfApprovedMember(userApi.getActiveUserId());
+
+        setActiveUserCity(response1.data);
         setActiveUserRoles(userApi.getActiveUserRoles);
         setCity(response.data);
        } 
@@ -56,6 +59,7 @@ const CityDocuments = () => {
 
     useEffect(() => {
         getDocuments();
+        getCity()
     }, []);
 
     return (
