@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Avatar, Button, Card, Layout, Modal, Skeleton, Spin } from "antd";
-import {
-  SettingOutlined,
-  CloseOutlined,
-  RollbackOutlined,
-} from "@ant-design/icons";
-import { getRegionAdministration, removeAdmin } from "../../api/regionsApi";
-import userApi from "../../api/UserApi";
+import { useHistory } from "react-router-dom";
+import { Avatar, Button, Card, Layout, Modal, Skeleton } from "antd";
+import { RollbackOutlined } from "@ant-design/icons";
 import "../Regions/Region.less";
 import moment from "moment";
 import "moment/locale/uk";
@@ -15,6 +9,7 @@ import Title from "antd/lib/typography/Title";
 import Spinner from "../Spinner/Spinner";
 import { getGoverningBodiesList, getGoverningBodyLogo } from "../../api/governingBodiesApi";
 import { GoverningBody } from "../../api/decisionsApi";
+import CityDefaultLogo from "../../assets/images/default_city_image.jpg";
 moment.locale("uk-ua");
 
 const RegionBoardAdministration = () => {
@@ -73,9 +68,9 @@ const RegionBoardAdministration = () => {
                     onClick={() => history.push(`/governingBodies/${governingBody.id}`)}
                   >
                     {photosLoading ? (
-                      <Skeleton.Avatar active size={86}></Skeleton.Avatar>
+                      <Skeleton.Avatar active size={86} />
                     ) : (
-                      <Avatar size={86} src={governingBody.logo} />
+                      <Avatar size={86} src={governingBody.logo == undefined ? CityDefaultLogo : governingBody.logo} />
                     )}
                     <Card.Meta
                       className="detailsMeta"
@@ -108,7 +103,7 @@ const RegionBoardAdministration = () => {
         onOk={handleOk}
         onCancel={handleOk}
         footer={null}
-      ></Modal>
+      />
     </Layout.Content>
   );
 };

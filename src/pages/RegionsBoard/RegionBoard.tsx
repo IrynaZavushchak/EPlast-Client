@@ -360,7 +360,7 @@ const RegionBoard = () => {
                       {gbPhotosAreLoading ? (
                         <Skeleton.Avatar active size={64} />
                       ) : (
-                        <Avatar size={64} src={governingBody.logo == null ? undefined : governingBody.logo} />
+                        <Avatar size={64} src={governingBody.logo == null ? CityDefaultLogo : governingBody.logo} />
                       )}
                       <p className="userName">
                         {governingBody.governingBodyName}
